@@ -195,7 +195,7 @@ var deleteTask = function (taskId) {
   // find task list element with taskId value and remove it
   var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
   taskSelected.remove();
-  
+
   // create new array to hold updated list of tasks
   var updatedTaskArr = [];
 
@@ -213,9 +213,27 @@ var deleteTask = function (taskId) {
   saveTasks();
 };
 
-var saveTasks = function() {
+var saveTasks = function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+var loadTasks = function () {
+  var savedTasks = localStorage.getItem("tasks");
+
+  if (tasks === null) {
+    return false;
+  };
+  
+  savedTasks = JSON.parse(savedTasks);
+  // loop through savedTasks array
+  for (var i = 0; i < savedTasks.length; i++) {
+    // pass each task object into the `createTaskEl()` function
+    createTaskEl(savedTasks[i]);
+  }
+
+}
+loadTasks();
+
 // Create a new task
 formEl.addEventListener("submit", taskFormHandler);
 
@@ -224,3 +242,5 @@ pageContentEl.addEventListener("click", taskButtonHandler);
 
 // for changing the status
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+
